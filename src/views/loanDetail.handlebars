@@ -1,0 +1,55 @@
+<h1>Préstamo Registrado - Detalles de la Operación</h1>
+<p>Capital: {{loan.capital}}</p>
+<p>Tasa Anual: {{loan.tasaAnual}}%</p>
+<p>Cuotas: {{loan.cuotas}}</p>
+<p>IVA: {{loan.iva}}%</p>
+<p>Fee Mensual: {{loan.feeMensual}}</p>
+<p>Costo de Otorgamiento: {{loan.costoOtorgamiento}}</p>
+<p>Sellado: {{loan.sellado}}%</p>
+<p>Valor de Sellado: {{loan.selladoAmount}}</p>
+<p>Fecha de Alta: {{formatDate loan.fechaAlta}}</p>
+<p>Fecha de Vencimiento de la Primera Cuota: {{formatDate loan.fechaVencimientoPrimerCuota}}</p>
+
+<h2>Plan de Pagos</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Cuota</th>
+            <th>Capital Pendiente</th>
+            <th>Interés</th>
+            <th>IVA sobre Interés</th>
+            <th>Amortización</th>
+            <th>Fee Mensual</th>
+            <th>Cuota sin IVA</th>
+            <th>Cuota Total</th>
+            <th>Fecha de Vencimiento</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each loan.planDePagos}}
+        <tr>
+            <td>{{this.cuota}}</td>
+            <td>{{this.capitalPendiente}}</td>
+            <td>{{this.interes}}</td>
+            <td>{{this.interesConIva}}</td>
+            <td>{{this.amortizacion}}</td>
+            <td>{{this.feeMensual}}</td>
+            <td>{{sum this.amortizacion this.interes}}</td>
+            <td>{{sum (sum this.amortizacion this.interes) (sum this.interesConIva this.feeMensual)}}</td>
+            <td>{{formatDate this.fechaVencimiento}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="2">Totales</th>
+            <th>{{totalInteres loan.planDePagos}}</th>
+            <th>{{totalInteresConIva loan.planDePagos}}</th>
+            <th>{{totalAmortizacion loan.planDePagos}}</th>
+            <th>{{totalFeeMensual loan.planDePagos}}</th>
+            <th>{{sum totalAmortizacion totalInteres}}</th>
+            <th>{{sum (sum totalAmortizacion totalInteres) (sum totalInteresConIva totalFeeMensual)}}</th>
+        </tr>
+    </tfoot>
+</table>
+

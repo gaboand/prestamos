@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Préstamo</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <main class="main-content">
+        <h1>Buscar Préstamo</h1>
+        <form class="search-loan-form" action="/loan/" method="get" onsubmit="redirectToLoanDetail(event)">
+            <label class="form-label" for="loanId">ID del Préstamo:</label>
+            <input class="form-input" type="text" id="loanId" name="loanId" required>
+            <button class="btn-primary" type="submit">Buscar</button>
+        </form>
+    </main>
+    <script>
+        function redirectToLoanDetail(event) {
+            event.preventDefault();
+            const loanId = document.getElementById('loanId').value;
+            window.location.href = `/loan/${loanId}`;
+        }
+    </script>
+</body>
+</html>

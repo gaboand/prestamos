@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <main class="main-content">
+        <h1>Listado de Préstamos</h1>
+        <form id="filterForm">
+            <label for="startDate">Fecha de Inicio:</label>
+            <input type="date" id="startDate" name="startDate" required>
+            
+            <label for="endDate">Fecha Final:</label>
+            <input type="date" id="endDate" name="endDate" required>
+            
+            <button class="btn-primary" type="button" onclick="filterLoans()">Filtrar</button>
+        </form>
+        
+        <div id="loanListContainer">
+            <!-- Aquí se mostrará el listado de préstamos -->
+        </div>
+    </main>
+    <script src="/js/loanList.js"></script>
+</body>
+</html>

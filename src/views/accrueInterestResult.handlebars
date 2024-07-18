@@ -1,0 +1,59 @@
+<h1>Resultado del Devengamiento de Intereses</h1>
+<p>{{message}}</p>
+<p>Fecha Actual: {{today}}</p>
+
+<h2>Detalles del Préstamo</h2>
+<p>ID del Préstamo: {{loan._id}}</p>
+<p>Capital: {{loan.capital}}</p>
+<p>Tasa Anual: {{loan.tasaAnual}}%</p>
+<p>Cuotas: {{loan.cuotas}}</p>
+<p>IVA: {{loan.iva}}%</p>
+<p>Fee Mensual: {{loan.feeMensual}}</p>
+<p>Costo de Otorgamiento: {{loan.costoOtorgamiento}}</p>
+<p>Sellado: {{loan.sellado}}%</p>
+<p>Valor de Sellado: {{loan.selladoAmount}}</p>
+<p>Intereses Devengados: {{loan.interesesDevengados}}</p>
+
+<h2>Plan de Pagos Actualizado</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Cuota</th>
+            <th>Capital Pendiente</th>
+            <th>Interés</th>
+            <th>IVA sobre Interés</th>
+            <th>Amortización</th>
+            <th>Fee Mensual</th>
+            <th>Cuota Total Sin IVA</th>
+            <th>Cuota Total Con IVA</th>
+            <th>Fecha de Vencimiento</th>
+            <th>Interés Devengado</th>
+            <th>Interés Compensatorio</th>
+            <th>Interés Punitorio</th>
+            <th>Días de Mora</th>
+            <th>Deuda Actualizada</th>
+            <th>Pagado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each loan.planDePagos}}
+        <tr>
+            <td>{{this.cuota}}</td>
+            <td>{{this.capitalPendiente}}</td>
+            <td>{{this.interes}}</td>
+            <td>{{this.ivaSobreInteres}}</td>
+            <td>{{this.amortizacion}}</td>
+            <td>{{this.feeMensual}}</td>
+            <td>{{this.cuotaTotalSinIva}}</td>
+            <td>{{this.cuotaTotalConIva}}</td>
+            <td>{{formatDate this.fechaVencimiento}}</td>
+            <td>{{this.interesDevengado}}</td>
+            <td>{{this.interesCompensatorio}}</td>
+            <td>{{this.interesPunitorio}}</td>
+            <td>{{this.diasMora}}</td>
+            <td>{{this.deudaActualizada}}</td>
+            <td>{{this.pagado}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

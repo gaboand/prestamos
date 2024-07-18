@@ -1,0 +1,15 @@
+<header class="header-main">
+    <a href="/home">
+        <img class="logo1" src="/img/logo2b.png" alt="Logo">
+    </a>
+    <div class="logout-container">
+        <img class="avatar-header" src="/img/{{#if user.profile_picture}}{{user.profile_picture}}{{else}}default_avatar.jpg{{/if}}" alt="user">
+        <h6 class="user-name-header">{{first_name}} {{last_name}} - {{userName}}</h6>
+        <div class="user-menu">
+            <ul>
+                <li><a href="/profile"><i class="fas fa-user-circle icon"></i> Profile</a></li>
+                <li><a href="/logout"><i class="fas fa-sign-out-alt icon"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</header>

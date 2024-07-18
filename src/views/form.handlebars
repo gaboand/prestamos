@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="simulation-form-container">
+        <h1>Simulación del Préstamo</h1>
+        <form id="loanForm">
+            <label for="capital">Capital:</label>
+            <input type="number" id="capital" name="capital" required>
+            
+            <label for="tasaAnual">Tasa Anual (%):</label>
+            <input type="number" id="tasaAnual" name="tasaAnual" required>
+            
+            <label for="cuotas">Cantidad de Cuotas:</label>
+            <input type="number" id="cuotas" name="cuotas" required>
+            
+            <label for="iva">IVA (%):</label>
+            <input type="number" id="iva" name="iva" required>
+            
+            <label for="feeMensual">Fee Mensual:</label>
+            <input type="number" id="feeMensual" name="feeMensual">
+            
+            <label for="costoOtorgamiento">Costo de Otorgamiento:</label>
+            <input type="number" id="costoOtorgamiento" name="costoOtorgamiento">
+            
+            <label for="sellado">Sellado (%):</label>
+            <input type="number" id="sellado" name="sellado">
+            
+            <label for="fechaPrimerVencimiento">Fecha de Vencimiento de la Primera Cuota:</label>
+            <input type="date" id="fechaPrimerVencimiento" name="fechaPrimerVencimiento" required>
+            
+            <button class="btn-primary" type="button" onclick="simulateLoan()">Simular Préstamo</button>
+        </form>
+    </div>
+
+    <div class="simulation-result-container" id="simulationResultContainer" style="display:none;">
+        <h1>Resultado de la Simulación</h1>
+        
+        <div id="simulationResult" class="scrollable">
+            <!-- Aquí se mostrará el resultado de la simulación o el detalle del préstamo confirmado -->
+        </div>
+        <button class="btn-primary" type="button" onclick="confirmLoan()">Confirmar Préstamo</button>
+    </div>
+</div>
+
+<script src="/js/loan.js"></script>

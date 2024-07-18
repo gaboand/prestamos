@@ -1,0 +1,124 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.simulation-form-container {
+    max-width: 400px;
+    margin: 20px 20px 20px 50px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.simulation-form-container h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.simulation-form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #555;
+}
+
+.simulation-form-container input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    max-width: 250px;
+    margin-top: 40px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.simulation-result-container {
+    max-width: 800px;
+    margin: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    position: relative;
+}
+
+.simulation-result-container h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.simulation-result-container .scrollable {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.simulation-result-container p, .simulation-result-container table {
+    font-size: 14px;
+    color: #333;
+}
+
+.simulation-result-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.simulation-result-container th, .simulation-result-container td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.simulation-result-container th {
+    background-color: #f4f4f4;
+}
+
+.simulation-result-container tfoot {
+    font-weight: bold;
+}
+
+.simulation-result-container .scrollable {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.result-columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.result-columns .left-column, .result-columns .right-column {
+    width: 48%;
+}
+

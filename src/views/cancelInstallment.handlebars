@@ -1,0 +1,8 @@
+<h1>Cancelación de Cuotas</h1>
+<form action="/administracion/cancel-installment" method="post">
+    <label for="loanId">ID del Préstamo:</label>
+    <input type="text" id="loanId" name="loanId" required>
+    <label for="installmentNumber">Número de Cuota:</label>
+    <input type="number" id="installmentNumber" name="installmentNumber" required>
+    <button type="submit">Cancelar Cuota</button>
+</form>
