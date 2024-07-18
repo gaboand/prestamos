@@ -1,10 +1,8 @@
 import Loan from '../dao/loan.model.js';
 
-// Simulate Loan
 export const simulateLoan = (req, res) => {
     const { capital, tasaAnual, cuotas, iva, feeMensual, costoOtorgamiento, sellado, fechaPrimerVencimiento } = req.body;
 
-    // Convert values to numbers
     const capitalFloat = parseFloat(capital);
     const tasaAnualFloat = parseFloat(tasaAnual);
     const cuotasInt = parseInt(cuotas);
@@ -13,14 +11,12 @@ export const simulateLoan = (req, res) => {
     const costoOtorgamientoFloat = parseFloat(costoOtorgamiento) || 0;
     const selladoFloat = parseFloat(sellado) || 0;
 
-    // Calculate the loan details
     const selladoAmount = capitalFloat * (selladoFloat / 100);
     const capitalDescontado = capitalFloat - costoOtorgamientoFloat - selladoAmount;
     const tasaMensual = tasaAnualFloat / 12 / 100;
     const cuotaSinFee = capitalDescontado * tasaMensual / (1 - Math.pow(1 + tasaMensual, -cuotasInt));
     const cuotaConFee = cuotaSinFee + feeMensualFloat;
 
-    // Generate payment plan
     const planDePagos = [];
     let capitalPendiente = capitalDescontado;
     const fechaPrimerVencimientoDate = new Date(fechaPrimerVencimiento);
@@ -40,20 +36,18 @@ export const simulateLoan = (req, res) => {
             amortizacion: amortizacion.toFixed(2),
             feeMensual: feeMensualFloat.toFixed(2),
             cuotaConFee: cuotaConFee.toFixed(2),
-            fechaVencimiento: fechaVencimiento.toISOString() // Cambio aquí
+            fechaVencimiento: fechaVencimiento.toISOString() 
         });
 
         capitalPendiente -= amortizacion;
     }
 
-    // Calculate totals
     const totalInteres = planDePagos.reduce((acc, curr) => acc + parseFloat(curr.interes), 0);
     const totalInteresConIva = planDePagos.reduce((acc, curr) => acc + parseFloat(curr.interesConIva), 0);
     const totalAmortizacion = planDePagos.reduce((acc, curr) => acc + parseFloat(curr.amortizacion), 0);
     const totalFeeMensual = planDePagos.reduce((acc, curr) => acc + parseFloat(curr.feeMensual), 0);
     const totalCuotaConFee = planDePagos.reduce((acc, curr) => acc + parseFloat(curr.cuotaConFee), 0);
 
-    // Send response
     res.json({
         capital: capitalFloat.toFixed(2),
         tasaAnual: tasaAnualFloat,
@@ -133,7 +127,6 @@ export const createLoan = async (req, res) => {
     }
 };
 
-// Función para obtener el préstamo por ID
 export const getLoanById = async (req, res) => {
     const { id } = req.params;
 

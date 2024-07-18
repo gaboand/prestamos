@@ -22,7 +22,6 @@ export const makePayment = async (req, res) => {
 
         const today = new Date();
 
-        // Registrar el pago en el modelo de pagos
         const payment = new Payment({
             monto: paymentAmount,
             prestamoAsociado: loan._id,
@@ -33,15 +32,12 @@ export const makePayment = async (req, res) => {
 
         await payment.save();
 
-        // Registrar el pago en el modelo de préstamos
         loan.pagos.push({ monto: paymentAmount, fecha: today, cuota: selectedCuota.cuota, canal: canal });
 
-        // Actualizar la cuota seleccionada
         selectedCuota.pagado = true;
         selectedCuota.deudaActualizada = 0;
         selectedCuota.diasMora = 0;
 
-        // Actualizar días de mora para el resto de las cuotas
         loan.planDePagos.forEach(installment => {
             if (!installment.pagado) {
                 const dueDate = new Date(installment.fechaVencimiento);
