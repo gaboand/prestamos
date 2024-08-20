@@ -11,6 +11,12 @@ const LoanSchema = new mongoose.Schema({
     selladoAmount: { type: Number, default: 0 },
     fechaAlta: { type: Date, default: Date.now },
     fechaVencimientoPrimerCuota: { type: Date, required: true },
+    codigo: { type: String, required: true, unique: true },
+    estado: { 
+        type: String, 
+        enum: ['vigente', 'cancelado', 'non_accrual', 'castigado', 'refinanciado', 'renovado'], 
+        default: 'vigente' 
+    },
     planDePagos: [{
         cuota: { type: Number, required: true },
         capitalPendiente: { type: Number, required: true },

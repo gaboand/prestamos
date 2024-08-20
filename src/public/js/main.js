@@ -64,8 +64,3 @@ document.addEventListener("DOMContentLoaded", function() {
       }
   });
 });
-
-
-
-
-  

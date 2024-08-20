@@ -45,7 +45,6 @@
     margin-right: 60px;
 }
 
-/* MENU ASIDE */
 .menu-btn {
     font-size: 1em;
     background: none;
@@ -138,7 +137,6 @@
     display: block;
 }
 
-/* NUEVO MENU EN header */
 .user-menu-container {
     display: flex;
     align-items: center;

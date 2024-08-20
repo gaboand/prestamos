@@ -4,7 +4,7 @@ async function simulateLoan() {
     const data = Object.fromEntries(formData.entries());
 
     try {
-        const response = await fetch('/loan/simulate', {
+        const response = await fetch('/api/loan/simulate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -102,7 +102,7 @@ async function confirmLoan() {
         const data = Object.fromEntries(formData.entries());
 
         try {
-            const response = await fetch('/loan/create', {
+            const response = await fetch('/api/loan/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

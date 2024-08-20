@@ -9,18 +9,12 @@
 <body>
     <main class="main-content">
         <h1>Buscar Préstamo</h1>
-        <form class="search-loan-form" action="/loan/" method="get" onsubmit="redirectToLoanDetail(event)">
-            <label class="form-label" for="loanId">ID del Préstamo:</label>
-            <input class="form-input" type="text" id="loanId" name="loanId" required>
+        <form class="search-loan-form" id="loanSearchForm">
+            <label class="form-label" for="codigo">Código del Préstamo:</label>
+            <input class="form-input" type="text" id="codigo" name="codigo" required>
             <button class="btn-primary" type="submit">Buscar</button>
         </form>
     </main>
-    <script>
-        function redirectToLoanDetail(event) {
-            event.preventDefault();
-            const loanId = document.getElementById('loanId').value;
-            window.location.href = `/loan/${loanId}`;
-        }
-    </script>
+    <script src="/js/loanSearch.js" defer></script>
 </body>
 </html>

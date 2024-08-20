@@ -1,4 +1,4 @@
-import Loan from '../dao/loan.model.js';
+import Loan from '../model/loan.model.js';
 
 export const cancelInstallment = async (req, res) => {
     const { loanId, installmentNumber } = req.body;
@@ -30,10 +30,11 @@ export const dailyInterest = (capital, tna) => {
 };
 
 export const accrueInterest = async (req, res) => {
-    const { loanId } = req.body;
+    const { codigo } = req.body;
 
     try {
-        const loan = await Loan.findById(loanId);
+        // Buscar el préstamo por su código
+        const loan = await Loan.findOne({ codigo });
         if (!loan) {
             return res.status(404).render('error', { message: 'Préstamo no encontrado' });
         }

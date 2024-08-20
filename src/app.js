@@ -4,7 +4,6 @@ import { fileURLToPath } from "url";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
 import configDotenv from "dotenv";
-import mongoose from "mongoose";
 import connectDB from "./config/db.js";
 import indexRouter from "./routes/index.routes.js";
 

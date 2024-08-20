@@ -1,4 +1,4 @@
-import Loan from '../dao/loan.model.js';
+import Loan from '../model/loan.model.js';
 
 export const simulateLoan = (req, res) => {
     const { capital, tasaAnual, cuotas, iva, feeMensual, costoOtorgamiento, sellado, fechaPrimerVencimiento } = req.body;
@@ -67,8 +67,31 @@ export const simulateLoan = (req, res) => {
     });
 };
 
+async function generateLoanCode() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (`0${today.getMonth() + 1}`).slice(-2); // Mes con dos dígitos
+    const day = (`0${today.getDate()}`).slice(-2); // Día con dos dígitos
+
+    const datePart = `${year}${month}${day}`;
+
+    // Buscar el último préstamo creado en la base de datos que tenga el mismo datePart en su código
+    const lastLoan = await Loan.findOne({ codigo: new RegExp(`^${datePart}`) })
+                                .sort({ codigo: -1 });
+
+    let nextSequence = '00001'; // Default para el primer préstamo del día
+
+    if (lastLoan) {
+        // Extraer la parte numérica del código
+        const lastSequence = parseInt(lastLoan.codigo.slice(-5), 10);
+        nextSequence = (`00000${lastSequence + 1}`).slice(-5);
+    }
+
+    return `${datePart}${nextSequence}`;
+}
+
 export const createLoan = async (req, res) => {
-    const { capital, tasaAnual, cuotas, iva, feeMensual, costoOtorgamiento, sellado, fechaPrimerVencimiento } = req.body;
+    const { capital, tasaAnual, cuotas, iva, feeMensual, costoOtorgamiento, sellado, fechaPrimerVencimiento, estado } = req.body;
 
     try {
         const feeMensualNum = parseFloat(feeMensual) || 0;
@@ -104,6 +127,8 @@ export const createLoan = async (req, res) => {
             });
         }
 
+        const codigo = await generateLoanCode();
+
         const loan = new Loan({
             capital: capitalOtorgado,
             tasaAnual,
@@ -115,6 +140,8 @@ export const createLoan = async (req, res) => {
             selladoAmount,
             fechaAlta: new Date().toISOString().split('T')[0],
             fechaVencimientoPrimerCuota: fechaPrimerVencimiento,
+            codigo, // Guardar el código generado
+            estado: estado || 'vigente', // Guardar el estado (por defecto "vigente")
             planDePagos
         });
 
@@ -142,6 +169,23 @@ export const getLoanById = async (req, res) => {
         res.status(500).render('error', { message: 'Error al buscar el préstamo' });
     }
 };
+
+export const getLoanByCode = async (req, res) => {
+    const { codigo } = req.params;
+
+    try {
+        const loan = await Loan.findOne({ codigo });
+        if (!loan) {
+            return res.status(404).render('error', { message: 'Préstamo no encontrado' });
+        }
+
+        res.render('loanDetail', { loan, title: 'Detalles del Préstamo' });
+    } catch (error) {
+        console.error('Error al buscar el préstamo:', error);
+        res.status(500).render('error', { message: 'Error al buscar el préstamo' });
+    }
+};
+
 
 export const getLoans = async (req, res) => {
     const { startDate, endDate } = req.query;
@@ -197,26 +241,27 @@ const calculateTotalDebt = (planDePagos) => {
     }, 0);
 };
 
-export const findLoan = async (req, res) => {
-    const { loanId } = req.query;
 
-    console.log("Loan ID recibido:", loanId);
+// export const findLoan = async (req, res) => {
+//     const { loanId } = req.query;
 
-    if (!mongoose.Types.ObjectId.isValid(loanId)) {
-        console.log("ID de préstamo no válido");
-        return res.status(400).render('error', { message: 'ID de préstamo no válido' });
-    }
+//     console.log("Loan ID recibido:", loanId);
 
-    try {
-        const loan = await Loan.findById(loanId);
-        if (!loan) {
-            console.log("Préstamo no encontrado");
-            return res.status(404).render('error', { message: 'Préstamo no encontrado' });
-        }
-        console.log("Préstamo encontrado:", loan);
-        res.render('loanDetail', { loan, title: 'Detalles del Préstamo' });
-    } catch (error) {
-        console.error("Error al buscar el préstamo:", error);
-        res.status(500).render('error', { message: 'Error al buscar el préstamo' });
-    }
-};
+//     if (!mongoose.Types.ObjectId.isValid(loanId)) {
+//         console.log("ID de préstamo no válido");
+//         return res.status(400).render('error', { message: 'ID de préstamo no válido' });
+//     }
+
+//     try {
+//         const loan = await Loan.findById(loanId);
+//         if (!loan) {
+//             console.log("Préstamo no encontrado");
+//             return res.status(404).render('error', { message: 'Préstamo no encontrado' });
+//         }
+//         console.log("Préstamo encontrado:", loan);
+//         res.render('loanDetail', { loan, title: 'Detalles del Préstamo' });
+//     } catch (error) {
+//         console.error("Error al buscar el préstamo:", error);
+//         res.status(500).render('error', { message: 'Error al buscar el préstamo' });
+//     }
+// };
