@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import { ClientModel } from './client.model.js'; // Asegúrate de que la importación del modelo sea correcta
 
 const LoanSchema = new mongoose.Schema({
+    codigo: { type: String, required: true, unique: true },
     capital: { type: Number, required: true },
     tasaAnual: { type: Number, required: true },
     cuotas: { type: Number, required: true },
@@ -11,12 +13,6 @@ const LoanSchema = new mongoose.Schema({
     selladoAmount: { type: Number, default: 0 },
     fechaAlta: { type: Date, default: Date.now },
     fechaVencimientoPrimerCuota: { type: Date, required: true },
-    codigo: { type: String, required: true, unique: true },
-    estado: { 
-        type: String, 
-        enum: ['vigente', 'cancelado', 'non_accrual', 'castigado', 'refinanciado', 'renovado'], 
-        default: 'vigente' 
-    },
     planDePagos: [{
         cuota: { type: Number, required: true },
         capitalPendiente: { type: Number, required: true },
@@ -31,9 +27,9 @@ const LoanSchema = new mongoose.Schema({
         monto: { type: Number, required: true },
         fecha: { type: Date, default: Date.now }
     }],
-    interesesDevengados: { type: Number, default: 0 }
+    interesesDevengados: { type: Number, default: 0 },
+    estado: { type: String, enum: ['vigente', 'cancelado', 'non_accrual', 'castigado', 'refinanciado', 'renovado'], required: true },
+    cliente: { type: mongoose.Schema.Types.ObjectId, ref: 'client', required: true }, // Referencia al cliente
 });
 
-const Loan = mongoose.model('Loan', LoanSchema);
-
-export default Loan;
+export const Loan = mongoose.model('Loan', LoanSchema);
