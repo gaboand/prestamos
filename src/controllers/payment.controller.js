@@ -1,11 +1,11 @@
-import Loan from '../dao/loan.model.js';
+import LoanModel from '../dao/loan.model.js';
 import Payment from '../dao/payment.model.js';
 
 export const makePayment = async (req, res) => {
     const { loanId, amount, cuota, canal } = req.body;
 
     try {
-        const loan = await Loan.findById(loanId);
+        const loan = await LoanModel.findById(loanId);
         if (!loan) {
             return res.status(404).render('error', { message: 'Préstamo no encontrado' });
         }
@@ -58,7 +58,7 @@ export const searchLoan = async (req, res) => {
     const { loanId } = req.query;
 
     try {
-        const loan = await Loan.findById(loanId);
+        const loan = await LoanModel.findById(loanId);
         if (!loan) {
             return res.status(404).json({ message: 'Préstamo no encontrado' });
         }

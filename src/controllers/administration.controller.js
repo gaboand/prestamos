@@ -1,10 +1,10 @@
-import Loan from '../model/loan.model.js';
+import {LoanModel} from '../model/loan.model.js';
 
 export const cancelInstallment = async (req, res) => {
     const { loanId, installmentNumber } = req.body;
 
     try {
-        const loan = await Loan.findById(loanId);
+        const loan = await LoanModel.findById(loanId);
         if (!loan) {
             return res.status(404).json({ error: 'Préstamo no encontrado' });
         }
@@ -33,8 +33,7 @@ export const accrueInterest = async (req, res) => {
     const { codigo } = req.body;
 
     try {
-        // Buscar el préstamo por su código
-        const loan = await Loan.findOne({ codigo });
+        const loan = await LoanModel.findOne({ codigo });
         if (!loan) {
             return res.status(404).render('error', { message: 'Préstamo no encontrado' });
         }
@@ -91,13 +90,6 @@ export const accrueInterest = async (req, res) => {
             installment.cuotaTotalConIva = cuotaTotalConIva.toFixed(2);
 
             loan.planDePagos[index] = installment;
-
-            console.log(`Cuota ${index + 1}:`);
-            console.log(`Interés Devengado: ${installment.interesDevengado}`);
-            console.log(`Interés Compensatorio: ${installment.interesCompensatorio}`);
-            console.log(`Interés Punitorio: ${installment.interesPunitorio}`);
-            console.log(`Deuda Actualizada: ${installment.deudaActualizada}`);
-            console.log(`Total Intereses Devengados hasta ahora: ${totalInteresesDevengados}`);
         });
 
         loan.interesesDevengados = totalInteresesDevengados.toFixed(2);
@@ -114,7 +106,7 @@ export const calculateTotalCancellation = async (req, res) => {
     const { loanId } = req.params;
 
     try {
-        const loan = await Loan.findById(loanId);
+        const loan = await LoanModel.findById(loanId);
         if (!loan) {
             return res.status(404).json({ error: 'Préstamo no encontrado' });
         }

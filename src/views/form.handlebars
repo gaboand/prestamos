@@ -26,7 +26,7 @@
             <label for="fechaPrimerVencimiento">Fecha de Vencimiento de la Primera Cuota:</label>
             <input type="date" id="fechaPrimerVencimiento" name="fechaPrimerVencimiento" required>
             
-            <button class="btn-primary" type="button" onclick="simulateLoan()">Simular Préstamo</button>
+            <button class="btn-primary" type="button" id="simulateLoanButton">Simular Préstamo</button>
         </form>
     </div>
 
@@ -40,11 +40,38 @@
         <!-- Formulario para crear el préstamo -->
         <form id="createLoanForm" style="display:none;">
             <h2>Confirmar Préstamo</h2>
-            <label for="dni">DNI del Cliente:</label>
-            <input type="text" id="dni" name="dni" required>
+            <label for="dniCliente">DNI del Cliente:</label>
+            <input type="text" id="dniCliente" name="dniCliente" required>
             
             <button class="btn-primary" type="submit">Confirmar Préstamo</button>
         </form>
     </div>
 </div>
+
+<!-- Modal para registrar un nuevo cliente -->
+<div id="newClientModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Registrar Nuevo Cliente</h2>
+        <form id="newClientForm">
+            <label for="dni">DNI:</label>
+            <input type="number" id="dni" name="dni" required>
+
+            <label for="first_name">Nombre:</label>
+            <input type="text" id="first_name" name="first_name" required>
+
+            <label for="last_name">Apellido:</label>
+            <input type="text" id="last_name" name="last_name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="phone1">Teléfono:</label>
+            <input type="text" id="phone1" name="phone1" required>
+
+            <button type="submit" class="btn-primary">Registrar Cliente</button>
+        </form>
+    </div>
+</div>
+
 <script src="/js/loan.js" defer></script>

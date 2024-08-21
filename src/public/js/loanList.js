@@ -1,5 +1,3 @@
-// loanList.js
-
 async function filterLoans() {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
