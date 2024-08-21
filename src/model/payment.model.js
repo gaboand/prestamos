@@ -9,6 +9,5 @@ const PaymentSchema = new mongoose.Schema({
     estado: { type: String, required: true }
 });
 
-const Payment = mongoose.model('Payment', PaymentSchema);
+export const PaymentModel = mongoose.model('Payment', PaymentSchema);
 
-export default Payment;

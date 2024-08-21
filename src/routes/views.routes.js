@@ -30,7 +30,7 @@ viewsRouter.get("/cancel-installment", (req, res) => {
     res.render("cancelInstallment"); 
 });
 
-viewsRouter.get("/calculate-total-cancellation", (req, res) => {
+viewsRouter.get("/cancelacion-final", (req, res) => {
     res.render("calculateTotalCancellation"); 
 });
 

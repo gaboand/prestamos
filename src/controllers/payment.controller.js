@@ -1,33 +1,34 @@
-import LoanModel from '../dao/loan.model.js';
-import Payment from '../dao/payment.model.js';
+import {LoanModel} from '../model/loan.model.js';
+import {PaymentModel} from '../model/payment.model.js';
 
 export const makePayment = async (req, res) => {
-    const { loanId, amount, cuota, canal } = req.body;
+    const { codigo, amount, cuota, canal } = req.body;
 
     try {
-        const loan = await LoanModel.findById(loanId);
+        const loan = await LoanModel.findOne({ codigo });
         if (!loan) {
-            return res.status(404).render('error', { message: 'Préstamo no encontrado' });
+            return res.status(404).json({ message: 'Préstamo no encontrado' });
         }
 
         const selectedCuota = loan.planDePagos.find(installment => installment.cuota === parseInt(cuota));
         if (!selectedCuota) {
-            return res.status(400).render('error', { message: 'Cuota no válida' });
+            return res.status(400).json({ message: 'Cuota no válida' });
         }
 
         const paymentAmount = parseFloat(amount);
-        if (paymentAmount < selectedCuota.deudaActualizada) {
-            return res.status(400).render('error', { message: 'El monto del pago no puede ser menor a la deuda actualizada' });
+        if (paymentAmount < selectedCuota.cuotaConFee) {  // Suponiendo que cuotaConFee es el monto total de la cuota
+            return res.status(400).json({ message: 'El monto del pago no puede ser menor al total de la cuota' });
         }
 
         const today = new Date();
 
-        const payment = new Payment({
+        const payment = new PaymentModel({
             monto: paymentAmount,
-            prestamoAsociado: loan._id,
+            loan: loan._id,
             fecha: today,
             canal: canal,
-            cuota: selectedCuota.cuota
+            cuota: selectedCuota.cuota,
+            estado: 'pagado'
         });
 
         await payment.save();
@@ -35,7 +36,7 @@ export const makePayment = async (req, res) => {
         loan.pagos.push({ monto: paymentAmount, fecha: today, cuota: selectedCuota.cuota, canal: canal });
 
         selectedCuota.pagado = true;
-        selectedCuota.deudaActualizada = 0;
+        selectedCuota.deudaActualizada = 0;  // Si hay un campo para la deuda restante
         selectedCuota.diasMora = 0;
 
         loan.planDePagos.forEach(installment => {
@@ -47,18 +48,18 @@ export const makePayment = async (req, res) => {
 
         await loan.save();
 
-        res.render('cobranza/paymentResult', { message: 'Pago registrado correctamente', loan, payment, today: today.toLocaleDateString('es-ES') });
+        res.json({ message: 'Pago registrado correctamente', loan, payment, today: today.toLocaleDateString('es-ES') });
     } catch (error) {
-        console.error(error);
-        res.status(500).render('error', { message: 'Error al registrar el pago' });
+        console.error('Error en makePayment:', error);
+        res.status(500).json({ message: 'Error al registrar el pago', error: error.message });
     }
 };
 
 export const searchLoan = async (req, res) => {
-    const { loanId } = req.query;
+    const { codigo } = req.query;
 
     try {
-        const loan = await LoanModel.findById(loanId);
+        const loan = await LoanModel.findOne({ codigo });
         if (!loan) {
             return res.status(404).json({ message: 'Préstamo no encontrado' });
         }
@@ -69,3 +70,4 @@ export const searchLoan = async (req, res) => {
         res.status(500).json({ message: 'Error al buscar el préstamo' });
     }
 };
+
